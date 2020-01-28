@@ -13,7 +13,7 @@ import valdirlib as vl
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 print(major_ver, major_ver, subminor_ver)
 
-p = "shape_predictor_68_face_landmarks.dat"
+p = "dnn/shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(p)
 
@@ -24,45 +24,47 @@ cap = cv2.VideoCapture(0)
 if cap.isOpened() == False:
     print("Erro na stream")
 
-count = 10
+N = 20
+count = N
 while cap.isOpened():
-    if (count < 10):
+    if (count < N):
         count +=1
     else:
         count =0
         status, frame = cap.read()
-        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        #small_frame = cv2.resize(gray_frame, (0, 0), fx=0.25, fy=0.25) #Scaling to 1/4
+        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25) #Scaling to 1/4
         #print(np.max(small_frame))
-        #rects = detector(gray_frame,0)
+        #dets = detector(frame,0)
         #for i, d in enumerate(dets):
     #     print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
     #         i, d.left(), d.top(), d.right(), d.bottom()))
         #break
 
-        rects = detector(gray_frame, 0)
-        #print(len(rects))  
+        dets = detector(frame, 0)
+        #print(len(dets))  
             # para cada face encontrada, encontre os pontos de interesse.
-        for (i, rect) in enumerate(rects):
+        for (i, rect) in enumerate(dets):
             # faça a predição e então transforme isso em um array do numpy.
-            shape = predictor(gray_frame, rect)
+            shape = predictor(frame, rect)
             shape = face_utils.shape_to_np(shape)
-            vl.angleEstimator(gray_frame, shape, 640, 480)
+            vl.angleEstimator(frame, shape, 640, 480)
             # desenhe na imagem cada cordenada(x,y) que foi encontrado.
-            #for (x, y) in shape:
-            #    cv2.circle(gray_frame, (x, y), 2, (0, 255, 0), -1)
+            for (x, y) in shape:
+                cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
 
 
         if (status == False):
             print("Oopsie")
             break
+        cv2.imshow("Output", frame)
     key = cv2.waitKey(1)
     if (key == ord('k')):
-        #print(rects)
-        #print(len(rects))
+        #print(dets)
+        #print(len(dets))
         break
 
 
-    cv2.imshow("Output", gray_frame)
+    
 cap.release()
 cv2.destroyAllWindows()
