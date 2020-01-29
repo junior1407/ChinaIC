@@ -1,8 +1,11 @@
 # ChinaIC
 
 #Para instalar
-conda env create -f ubuntu.yml
+
+  conda env create -f ubuntu.yml
 
 #Para rodar
-conda activate chinaIc
-python main.py
+
+  conda activate chinaIc
+  
+  python main.py
