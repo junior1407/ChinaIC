@@ -123,10 +123,10 @@ def angleEstimator(img, points, width, height):
     font = cv2.FONT_HERSHEY_DUPLEX
 
     euler[0][0] = math.copysign(1, euler[0][0]) * 180 - euler[0][0];
-    cv2.putText(img, "Pitch: "+ '{0:.2f}'.format(euler[0][0]), (420, 25), font, 1.0, (255, 255, 255), 1)
-    cv2.putText(img, "Yawn: "+ '{0:.2f}'.format(euler[1][0]), (420, 50), font, 1.0, (255, 255, 255), 1)
-    cv2.putText(img, "Roll:  "+ '{0:.2f}'.format(euler[2][0]), (420, 75), font, 1.0, (255, 255, 255), 1)   # cv2.putText(img, "Rol" + str(euler[2]), (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-
+    #cv2.putText(img, "Pitch: "+ '{0:.2f}'.format(euler[0][0]), (420, 25), font, 1.0, (0, 255, 0), 1)
+    #cv2.putText(img, "Yawn: "+ '{0:.2f}'.format(euler[1][0]), (420, 50), font, 1.0, (0, 255, 0), 1)
+    #cv2.putText(img, "Roll:  "+ '{0:.2f}'.format(euler[2][0]), (420, 75), font, 1.0, (0, 255, 0), 1)   # cv2.putText(img, "Rol" + str(euler[2]), (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
+    print(euler[0][0],euler[1][0],euler[2][0])
     (nose_end_point2D, jacobian) = cv2.projectPoints(np.array([(0.0, 0.0, 1000.0)]), rotation_vector, translation_vector, camera_matrix, dist_coeffs)
     p1 = ( int(image_points_np[0][0]), int(image_points_np[0][1]))
     p2 = ( int(nose_end_point2D[0][0][0]), int(nose_end_point2D[0][0][1]))
