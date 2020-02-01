@@ -4,6 +4,7 @@
 #https://www.learnopencv.com/head-pose-estimation-using-opencv-and-dlib/
 #https://github.com/ageitgey/face_recognition/issues/357
 #https://answers.opencv.org/question/16796/computing-attituderoll-pitch-yaw-from-solvepnp/
+#https://medium.com/xailient/face-tracking-in-python-using-xailient-face-detector-and-dlib-8345c5db27b8
 
 from imutils import face_utils
 import dlib
@@ -11,6 +12,7 @@ import cv2
 import numpy as np
 import valdirlib as vl
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
+import time
 print(major_ver, major_ver, subminor_ver)
 
 p = "dnn/shape_predictor_68_face_landmarks.dat"
@@ -60,6 +62,7 @@ while cap.isOpened():
         cv2.imshow("Output", frame)
     key = cv2.waitKey(1)
     if (key == ord('k')):
+        time.sleep(5)
         #print(dets)
         #print(len(dets))
         break

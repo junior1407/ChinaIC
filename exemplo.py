@@ -6,35 +6,33 @@ import lib
 import valdirlib as vl
 import json
 
-p = "dnn/shape_predictor_68_face_landmarks.dat"
+predictorPath = "dnn/shape_predictor_68_face_landmarks.dat"
+face_rec_model_path= "dnn/dlib_face_recognition_resnet_model_v1.dat"
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor(p)
+predictor = dlib.shape_predictor(predictorPath)
+facerec = dlib.face_recognition_model_v1(face_rec_model_path)
 frame = cv2.imread('poses/C.jpg', cv2.IMREAD_COLOR)
 frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
 height, width = frame.shape[:2]
 resolution =(width, height)
-print(resolution)
 dets = detector(frame, 0)
 db = []
 
-#print(dets)
-#print(len(dets))  
-    # para cada face encontrada, encontre os pontos de interesse.
+#iterate faces found.
 for (i, rect) in enumerate(dets):
-    #print(i)
-    #print(rect)
     x, y, w, h = rect.left(), rect.top(), rect.width(), rect.height()
-
     tl = (x,y)
     br = (x + w, y + h)
-   # print(tl,br)
     if (lib.isFaceValid(tl,br, resolution)):
-        cv2.rectangle(frame, tl, br, (255,0,0), 2)    # faça a predição e então transforme isso em um array do numpy.
-        shape = predictor(frame, rect)
-        shape = face_utils.shape_to_np(shape)
+        cv2.rectangle(frame, tl, br, (255,0,0), 2)
+        shape = predictor(frame, rect) # 68 points
+        descriptor = facerec.compute_face_descriptor(frame, shape)
+        print(descriptor)
+        #shape = dlib.get_face_chip(frame, shape) #Align
+        shape = face_utils.shape_to_np(shape) # to numpy Array
         tl = (shape[0][0], shape[19][1])
         br = (shape[16][0],shape[8][1])
-        print("New tl: ", tl, br)
+        #print("New tl: ", tl, br)
         cv2.rectangle(frame, tl, br, (0,255,0), 2)
         #print(shape)
         new_shape = lib.normalizeShape(shape, tl, br)
