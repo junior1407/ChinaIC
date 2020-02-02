@@ -10,7 +10,7 @@ from imutils import face_utils
 import dlib
 import cv2
 import numpy as np
-import valdirlib as vl
+import valdirlib2 as vl
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 import time
 print(major_ver, major_ver, subminor_ver)

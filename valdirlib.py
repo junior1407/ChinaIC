@@ -107,6 +107,7 @@ def angleEstimator2(img, points, width, height):
     #cv2.line(img, p1, p2, (255,0,0), 2)
 
 
+
 def angleEstimator(img, points, width, height):
 
     indexes = [30, 8, 36, 45, 48, 54]
