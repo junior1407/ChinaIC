@@ -19,7 +19,6 @@ p = "dnn/shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(p)
 
-
 detecting = True
 tracker = cv2.TrackerMedianFlow_create()
 cap = cv2.VideoCapture(0)
@@ -29,7 +28,7 @@ if cap.isOpened() == False:
 N = 20
 count = N
 while cap.isOpened():
-    if (count < N):
+    if (count < N):     
         count +=1
     else:
         count =0
