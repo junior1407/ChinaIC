@@ -15,17 +15,23 @@ predictor = dlib.shape_predictor(predictorPath)
 faceRec = dlib.face_recognition_model_v1(faceRecPath)
 
 
-def isFaceValid(tl, br, resolution):
+def isFaceValid(img, rect):
+    height, width = img.shape[:2]
+    resolution =(width, height)
+    x, y, w, h = rect.left(), rect.top(), rect.width(), rect.height()
+    tl = (x,y)
+    br = (x + w, y + h)
     if((tl[0]>=0 and tl[0]<=resolution[0]) and 
         (tl[1]>=0 and tl[1]<=resolution[1]) and 
-        (br[0]>=0 and tl[0]<=resolution[0]) and
-        (br[1]>=0 and tl[0]<=resolution[1])):
+        (br[0]>=0 and br[0]<=resolution[0]) and
+        (br[1]>=0 and br[1]<=resolution[1])):
         return True
     return False
     
 
 def getFaceRects(img, upsample=0):
-    return detector(img, upsample)
+    return detector.run(img, 0, 0)
+    #return detector(img, upsample)
 
 def getFaceLandmarks(img, rects):
     return [predictor(img, f) for f in rects]
