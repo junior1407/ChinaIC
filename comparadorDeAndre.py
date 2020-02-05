@@ -1,4 +1,4 @@
-from imutils import face_utils
+ from imutils import face_utils
 import dlib
 import cv2
 import numpy as np
@@ -8,7 +8,7 @@ import json
 import matplotlib.pyplot as plt
 import os
 import libTop as lb
-import dbClass
+from dbClass import Database
 import shutil
 bd = Database()
 lista = os.listdir('poses')
