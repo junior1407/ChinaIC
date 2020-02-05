@@ -1,5 +1,6 @@
 import numpy as np
 
+
 predictorPath = "dnn/shape_predictor_68_face_landmarks.dat"
 def isFaceValid(tl, br, resolution):
     if((tl[0]>=0 and tl[0]<=resolution[0]) and 
