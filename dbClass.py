@@ -1,5 +1,6 @@
 import libTop as lb
 import numpy as np
+import heapq
 class Database:
     
     def __init__(self):
@@ -7,15 +8,20 @@ class Database:
          self.faces = {}
     def findBestClass(self, faceDescriptor):
         #distances  = [(iD, lb.faceDistance(faceDescriptor, entry[0])) for iD, entries in self.faces for entry in entries]
-        
+        distances = []  # [  (distance1, id1), (distance2, id2)]
+        for iD, entries in self.faces.items():
+            for entry in entries:
+                d = lb.faceDistance(faceDescriptor, entry[0])
+                heapq.heappush(distances, (d, iD))
         print()
-        pass
+        return distances[0]
             
     def addFace(self, faceDescriptor, imgCropped):
          if (len(self.faces.keys()) == 0):
             self.faces[self.nextId]= np.array([[faceDescriptor, imgCropped]])
          else:
-             pass
+             bestDistance, bestId = self.findBestClass(faceDescriptor)
+             if (bestDistance > 0.6)
 
     def addImg(self, img, upsample=0, minimumScore = 0.22):
         facesDetected, scores, idx = lb.getFaceRects(img, 0)
