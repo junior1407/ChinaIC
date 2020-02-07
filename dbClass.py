@@ -1,42 +1,53 @@
 import libTop as lb
 import numpy as np
 import heapq
+import matplotlib.pyplot as plt
 class Database:
-    
     def __init__(self):
          self.nextId = 0
          self.faces = {}
     def findBestClass(self, faceDescriptor):
-        #distances  = [(iD, lb.faceDistance(faceDescriptor, entry[0])) for iD, entries in self.faces for entry in entries]
         distances = []  # [  (distance1, id1), (distance2, id2)]
+        
         for iD, entries in self.faces.items():
+            d = 0
             for entry in entries:
-                d = lb.faceDistance(faceDescriptor, entry[0])
-                heapq.heappush(distances, (d, iD))
-        print()
+        ##        d = lb.faceDistance(faceDescriptor, entry[0])
+                d+= lb.faceDistance(faceDescriptor, entry[0])
+         ##   distances.append((iD, d))
+            distances.append((iD, d/len(entries)))
+
+        distances.sort(key= lambda x: x[1])        
         return distances[0]
-            
     def addFace(self, faceDescriptor, imgCropped):
          if (len(self.faces.keys()) == 0):
-            self.faces[self.nextId]= np.array([[faceDescriptor, imgCropped]])
+            self.faces[0]= np.array([[faceDescriptor, imgCropped]])
+            self.nextId+=1
+            return 0
          else:
-             bestDistance, bestId = self.findBestClass(faceDescriptor)
-             if (bestDistance > 0.6)
-
+             bestId, bestDistance = self.findBestClass(faceDescriptor)             
+             if (bestDistance >= 0.45):
+                 self.faces[self.nextId] = np.array([[faceDescriptor, imgCropped]])
+                 self.nextId+=1
+                 return (self.nextId-1)
+             elif (bestDistance >=0.3):
+                self.faces[bestId] = np.append(self.faces[bestId],[[faceDescriptor, imgCropped]], axis=0)
+                return bestId
     def addImg(self, img, upsample=0, minimumScore = 0.22):
-        facesDetected, scores, idx = lb.getFaceRects(img, 0)
+        facesDetected, scores, ids = lb.getFaceRects(img, 0)
+        print(scores)
         faceDescriptors = lb.getFaceDescriptors(img, facesDetected)
+        [(0, (10,20), (30,40)),  ]
+        retorno = []
         for i in range(len(facesDetected)):
-            #If the detection doesn't have a score big enough, ignore it.
-            if (scores[i]< minimumScore):
-                continue
-
             #If the part of the face is not visible, ignore it.
             if (lb.isFaceValid(img, facesDetected[i]) is False):
                 continue
             x, y, w, h = facesDetected[i].left(),facesDetected[i].top(),facesDetected[i].width(), facesDetected[i].height()
-            self.addFace(faceDescriptors[i], img[y:y+h, x:x+w])
-    
+            
+            r = self.addFace(faceDescriptors[i], img[y:y+h, x:x+w]),(x,y),(x+w, y+h)
+            retorno.append(r)
+        return retorno
    
             
         

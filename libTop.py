@@ -30,7 +30,7 @@ def isFaceValid(img, rect):
     
 
 def getFaceRects(img, upsample=0):
-    return detector.run(img, 0, 0)
+    return detector.run(img, 0)
     #return detector(img, upsample)
 
 def getFaceLandmarks(img, rects):
