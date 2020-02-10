@@ -28,14 +28,17 @@ for l in lista:
                 print("Classe " + str(trackers[i][1]) + " foi perdida")
                 trackers[i]=None
     trackers = [t for t in trackers if t is not None ]
-    distances = []    
+    for t in trackers:
+        for f in faceRects:
+            
     for i in range(len(faceRects)):
         x, y, w, h = faceRects[i].left(), faceRects[i].top(),faceRects[i].width(), faceRects[i].height()
         tl = (x,y)
         br = (x + w, y + h)
         distances.append([])
         for j in range(len(trackers)):
-            distances[i].append(lb.distance(trackers[j][3]),(tl,br))
+            d = lb.distance(trackers[j][3],(tl,br))
+            
             
 
     detections = bd.addImg(frame)
