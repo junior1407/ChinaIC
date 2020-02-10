@@ -27,44 +27,53 @@ if cap.isOpened() == False:
 
 N = 3
 count = N
+tracker = cv2.TrackerMIL_create()
+found=0
 while cap.isOpened():
     if (count < N):     
         count +=1
     else:
         count =0
         status, frame = cap.read()
+        if (found == 1):
+            ok, bbox = tracker.update(frame)
+            print(ok)
+            p1 = (int(bbox[0]), int(bbox[1]))
+            p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+            cv2.rectangle(frame, p1, p2, (255,0,0), 2, 1)
         #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         #small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25) #Scaling to 1/4
         #print(np.max(small_frame))
         #dets = detector(frame,0)
-        #for i, d in enumerate(dets):
+        #for i, d in enumerate(dets):k
     #     print("Detection {}: Left: {} Top: {} Right: {} Bottom: {}".format(
     #         i, d.left(), d.top(), d.right(), d.bottom()))
         #break
 
-        dets = detector(frame, 0)
+      #  dets = detector(frame, 0)
         #print(len(dets))  
             # para cada face encontrada, encontre os pontos de interesse.
-        for (i, rect) in enumerate(dets):
+     #   for (i, rect) in enumerate(dets):
             # faça a predição e então transforme isso em um array do numpy.
-            shape = predictor(frame, rect)
-            shape = face_utils.shape_to_np(shape)
-            vl.angleEstimator(frame, shape)
+           # shape = predictor(frame, rect)
+           # shape = face_utils.shape_to_np(shape)
+           # vl.angleEstimator(frame, shape)
             # desenhe na imagem cada cordenada(x,y) que foi encontrado.
-            for (x, y) in shape:
-                cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
+          #  for (x, y) in shape:
+           #     cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)
+
 
 
         if (status == False):
             print("Oopsie")
             break
         cv2.imshow("Output", frame)
-    key = cv2.waitKey(1)
-    if (key == ord('k')):
-        time.sleep(5)
-        #print(dets)
-        #print(len(dets))
-        break
+        if (cv2.waitKey(1) & 0xFF == ord('q')):
+            bbox = cv2.selectROI(frame, False)
+            tracker.init(frame, bbox)
+            found=1
+        if (cv2.waitKey(1) & 0xFF == ord('k')):
+            break
 
 
     

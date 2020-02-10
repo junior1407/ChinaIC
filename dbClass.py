@@ -33,9 +33,11 @@ class Database:
              elif (bestDistance >=0.4):
                 self.faces[bestId] = np.append(self.faces[bestId],[[faceDescriptor, imgCropped]], axis=0)
                 return bestId
+             else:
+                return bestId
     def addImg(self, img, upsample=0, minimumScore = 0.22):
-        facesDetected, scores, ids = lb.getFaceRects(img, 0)
-        print(scores)
+        facesDetected= lb.getFaceRects(img, 0)
+#        print(scores)
         faceDescriptors = lb.getFaceDescriptors(img, facesDetected)
         retorno = []
         for i in range(len(facesDetected)):

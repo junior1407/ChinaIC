@@ -6,7 +6,7 @@ import lib
 import valdirlib2 as vl
 import json
 import matplotlib.pyplot as plt
-
+import math
 predictorPath5 = "dnn/shape_predictor_5_face_landmarks.dat"
 predictorPath = "dnn/shape_predictor_68_face_landmarks.dat"
 faceRecPath = "dnn/dlib_face_recognition_resnet_model_v1.dat"
@@ -30,10 +30,14 @@ def isFaceValid(img, rect):
         return True
     return False
     
+def distance(centroid1, centroid2):
+    x_1, y_1 = centroid1
+    x_2, y_2 = centroid2
+    return math.sqrt( ((x_1-x_2)**2)+((y_1-y_2)**2) )
 
 def getFaceRects(img, upsample=0):
-    return detector.run(img, 0)
-    #return detector(img, upsample)
+    #return detector.run(img, 0)
+    return detector(img, upsample)
     #for 
 
 def getFaceLandmarks(img, rects, points = 5):
