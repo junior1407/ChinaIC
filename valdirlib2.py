@@ -16,7 +16,7 @@ def get3DFaceModel():
                         ])
     return model_points
 
-def angleEstimator(img, points, width, height):
+def angleEstimator(img, points):
     size = img.shape
     indexes = [30, 8, 36, 45, 48, 54]
     image_points = [points[i] for i in indexes]
@@ -61,5 +61,5 @@ def angleEstimator(img, points, width, height):
     cv2.putText(img, "Pitch: "+ '{0:.2f}'.format(pitch), (420, 25), font, 1.0, (0, 255, 0), 1)
     cv2.putText(img, "Yawn: "+ '{0:.2f}'.format(yaw), (420, 50), font, 1.0, (0, 255, 0), 1)
     cv2.putText(img, "Roll:  "+ '{0:.2f}'.format(roll), (420, 75), font, 1.0, (0, 255, 0), 1)   # cv2.putText(img, "Rol" + str(euler[2]), (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-    
-    print(pitch,roll, yaw)
+    return (pitch, roll, yaw)
+

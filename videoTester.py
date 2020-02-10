@@ -6,23 +6,24 @@ import shutil
 bd = Database()
 import os
 SKIP = 3
-
-nextId = 0
-db = []
 lista = os.listdir('video')
-count = 0
-iD=0
 lista.sort()
-print(lista)
+font = cv2.FONT_HERSHEY_SIMPLEX 
 for l in lista:
     frame = cv2.imread('video/'+ l, cv2.IMREAD_COLOR)
     detections = bd.addImg(frame)
+    classe=None
     for det in detections:
         classe, tl, br = det
-        cv2.rectangle(frame, tl, br, (255,0,0), 2)
+        if (classe is not None):
+            cv2.putText(frame, str(classe), (tl[0], br[1]), font, 1, (255,0,0), 2, cv2.LINE_AA)
+            cv2.rectangle(frame, tl, br, (255,0,0), 2)
+        else:
+            pass
     cv2.imshow("Output", frame)
-    iD+=1
-    cv2.waitKey(0)
+   # if (classe is not None):
+       # cv2.waitKey(0)
+    #cv2.waitKey(0)
     if (cv2.waitKey(1) & 0xFF == ord('q')):
         break
 

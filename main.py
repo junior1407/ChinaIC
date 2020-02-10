@@ -25,7 +25,7 @@ cap = cv2.VideoCapture(0)
 if cap.isOpened() == False:
     print("Erro na stream")
 
-N = 20
+N = 3
 count = N
 while cap.isOpened():
     if (count < N):     
@@ -49,7 +49,7 @@ while cap.isOpened():
             # faça a predição e então transforme isso em um array do numpy.
             shape = predictor(frame, rect)
             shape = face_utils.shape_to_np(shape)
-            vl.angleEstimator(frame, shape, 640, 480)
+            vl.angleEstimator(frame, shape)
             # desenhe na imagem cada cordenada(x,y) que foi encontrado.
             for (x, y) in shape:
                 cv2.circle(frame, (x, y), 2, (0, 255, 0), -1)

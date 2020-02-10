@@ -7,11 +7,13 @@ import valdirlib2 as vl
 import json
 import matplotlib.pyplot as plt
 
+predictorPath5 = "dnn/shape_predictor_5_face_landmarks.dat"
 predictorPath = "dnn/shape_predictor_68_face_landmarks.dat"
 faceRecPath = "dnn/dlib_face_recognition_resnet_model_v1.dat"
 detector = dlib.get_frontal_face_detector()
 #detector = dlib.cnn_face_detection_model_v1("dnn/mmod_human_face_detector.dat")
 predictor = dlib.shape_predictor(predictorPath)
+predictor5 = dlib.shape_predictor(predictorPath5)
 faceRec = dlib.face_recognition_model_v1(faceRecPath)
 
 
@@ -32,13 +34,30 @@ def isFaceValid(img, rect):
 def getFaceRects(img, upsample=0):
     return detector.run(img, 0)
     #return detector(img, upsample)
+    #for 
 
-def getFaceLandmarks(img, rects):
+def getFaceLandmarks(img, rects, points = 5):
+    if (points == 5):    
+        return [predictor5(img, f) for f in rects]
     return [predictor(img, f) for f in rects]
-
+    
 def getFaceDescriptors(img, rects, jitter = 0):
-    landmarks = getFaceLandmarks(img, rects)
-    return [np.array(faceRec.compute_face_descriptor(img, l, jitter)) for l in landmarks]
+    landmarks5 = getFaceLandmarks(img, rects)
+    #chips = dlib.get_face_chips(img, landmarks5)
+    descriptors = []
+    for l5 in landmarks5:
+        c = dlib.get_face_chip(img, l5)
+        new_rs = dlib.rectangles()
+        new_rs.append(dlib.rectangle(0,0,149,149))
+        l = getFaceLandmarks(c, new_rs, points=68)
+        descriptors.append(np.array(faceRec.compute_face_descriptor(c,l[0],jitter)))
+        
+    #descriptors = [faceRec.compute_face_descriptor(c, getFaceLandmarks(c, 
+  #                                dlib.rectangle(0,0,149,149), points=68), jitter)for c in chips]
+   # descriptors=  [np.array(faceRec.compute_face_descriptor(img, l, jitter)) for l in landmarks]
+    #directions = [vl.angleEstimator(img, face_utils.shape_to_np(l)) for l in landmarks]
+    return descriptors
+
 
 def faceDistance(faceDescriptor1, faceDescriptor2):
     return np.linalg.norm(faceDescriptor1-faceDescriptor2)
