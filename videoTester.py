@@ -16,6 +16,8 @@ ct = CentroidTracker(bd)
 #tracker = cv2.TrackerMIL_create() 
 for l in lista:
 #while cap.isOpened():
+    if (l=='0062.jpg'):
+        print()
     frame = cv2.imread('video/'+ l, cv2.IMREAD_COLOR)
     #status, frame = cap.read()
     faceRects = lb.getFaceRects(frame)
