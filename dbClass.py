@@ -51,7 +51,7 @@ class Database:
             x, y, w, h = facesDetected[i].left(),facesDetected[i].top(),facesDetected[i].width(), facesDetected[i].height()
             
             r = self.addFace(faceDescriptors[i], img[y:y+h, x:x+w]),(x,y),(x+w, y+h)
-            print(r)
+            #print(r)
             retorno.append(r)
         return retorno
    

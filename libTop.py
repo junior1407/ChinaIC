@@ -66,7 +66,9 @@ def getFaceDescriptors(img, rects, jitter = 0):
 
 
 def faceDistance(faceDescriptor1, faceDescriptor2):
-    ks = stats.ks_2samp(faceDescriptor1, faceDescriptor1)
+    ks = stats.ks_2samp(faceDescriptor1, faceDescriptor2)
+    print(ks)
+    print(np.linalg.norm(faceDescriptor1-faceDescriptor2))
     return ks[0]
     #return np.linalg.norm(faceDescriptor1-faceDescriptor2)
 

@@ -7,11 +7,14 @@ import matplotlib.pyplot as plt
 import os
 import libTop as lb
 from dbClass import Database
+from centroidTracker import CentroidTracker
 import shutil
 bd = Database()
+ct = CentroidTracker()
 lista = os.listdir('poses')
 for l in lista:
     currImg = cv2.imread('poses/'+ l, cv2.IMREAD_COLOR)
+    
     #currImg = cv2.resize(currImg, (0,0), fx=0.5, fy=0.5)
     bd.addImg(currImg)
   
