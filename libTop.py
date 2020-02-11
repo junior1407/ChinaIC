@@ -7,6 +7,8 @@ import valdirlib2 as vl
 import json
 import matplotlib.pyplot as plt
 import math
+from scipy import stats
+
 predictorPath5 = "dnn/shape_predictor_5_face_landmarks.dat"
 predictorPath = "dnn/shape_predictor_68_face_landmarks.dat"
 faceRecPath = "dnn/dlib_face_recognition_resnet_model_v1.dat"
@@ -64,5 +66,7 @@ def getFaceDescriptors(img, rects, jitter = 0):
 
 
 def faceDistance(faceDescriptor1, faceDescriptor2):
-    return np.linalg.norm(faceDescriptor1-faceDescriptor2)
+    ks = stats.ks_2samp(faceDescriptor1, faceDescriptor1)
+    return ks[0]
+    #return np.linalg.norm(faceDescriptor1-faceDescriptor2)
 
