@@ -35,6 +35,12 @@ class Database:
                 return bestId
              else:
                 return bestId
+    def identifyFace(self, img, rect):
+        descriptor = lb.getFaceDescriptor(img, rect)
+        x, y, w, h = rect.left(), rect.top(), rect.width(), rect.height()
+        imgCropped = img[y:y + h, x:x + w]
+        return self.addFace(descriptor, imgCropped)
+
     def addImg(self, img, upsample=0, minimumScore = 0.22):
         facesDetected= lb.getFaceRects(img, 0)
 #        print(scores)

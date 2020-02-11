@@ -46,7 +46,12 @@ def getFaceLandmarks(img, rects, points = 5):
     if (points == 5):    
         return [predictor5(img, f) for f in rects]
     return [predictor(img, f) for f in rects]
-    
+
+def getFaceDescriptor(img, rect):
+    rects =  dlib.rectangles()
+    rects.append(rect)
+    return getFaceDescriptors(img, rects)[0]
+
 def getFaceDescriptors(img, rects, jitter = 0):
     landmarks5 = getFaceLandmarks(img, rects)
     #chips = dlib.get_face_chips(img, landmarks5)
@@ -66,9 +71,9 @@ def getFaceDescriptors(img, rects, jitter = 0):
 
 
 def faceDistance(faceDescriptor1, faceDescriptor2):
-    ks = stats.ks_2samp(faceDescriptor1, faceDescriptor2)
-    print(ks)
-    print(np.linalg.norm(faceDescriptor1-faceDescriptor2))
-    return ks[0]
-    #return np.linalg.norm(faceDescriptor1-faceDescriptor2)
+    #ks = stats.ks_2samp(faceDescriptor1, faceDescriptor2)
+    #print(ks)
+    #print(np.linalg.norm(faceDescriptor1-faceDescriptor2))
+    #return ks[0]
+    return np.linalg.norm(faceDescriptor1-faceDescriptor2)
 
