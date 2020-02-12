@@ -82,6 +82,5 @@ for k,v in bd.faces.items():
     i=0
     os.mkdir('bd/'+str(k))
     for elem in v:
-
         cv2.imwrite('bd/'+str(k)+'/'+str(i)+'.jpg', elem[1])
         i+=1

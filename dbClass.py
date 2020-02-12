@@ -26,7 +26,7 @@ class Database:
             return 0
          else:
              bestId, bestDistance = self.findBestClass(faceDescriptor)
-             if (bestDistance >= 0.50):
+             if (bestDistance >= 0.60):
                  self.faces[self.nextId] = np.array([[faceDescriptor, imgCropped]])
                  self.nextId+=1
                  return (self.nextId-1)
