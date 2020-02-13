@@ -20,7 +20,6 @@ while(videoCapture.isOpened()):
         count+=1
     else:
         count=0
-        #rects = lb.getFaceRects(frame)
         bd.addImg(frame)
         cv2.imshow("Output", frame)
         cv2.imwrite("video/" + "{:04d}".format(iD) +".jpg", frame)
@@ -31,12 +30,3 @@ while(videoCapture.isOpened()):
     
 videoCapture.release()
 cv2.destroyAllWindows()
-
-shutil.rmtree('bd', ignore_errors=True)
-os.mkdir('bd')
-for k,v in bd.faces.items():
-    i=0
-    os.mkdir('bd/'+str(k))
-    for elem in v:
-        cv2.imwrite('bd/'+str(k)+'/'+str(i)+'.jpg', elem[1])
-        i+=1

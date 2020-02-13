@@ -12,8 +12,6 @@ class CentroidTracker:
     def __init__(self, bd):
         self.trackers = []
         self.bd = bd
-        # [tracker, (tl,br), class, disappearances, identifications]
-        #   self.MAX_DISTANCE = 20
         self.MAX_DISAPPEARANCES = 1
         self.ACCEPTABLE_DISTANCE = 300
         self.MAX_IDENTIFICATIONS = 20
@@ -63,9 +61,6 @@ class CentroidTracker:
                 takenTrackers[len(self.trackers) - 1] = 1
                 takenRect[i] = 1
         else:
-            # [[indexTracker, indexRect, distance], [], []]
-
-
             while len(allDistances) != 0:
                 if (len(allDistances)>=2):
                     print()
@@ -101,35 +96,6 @@ class CentroidTracker:
                 temp = [newTracker, (tl,br), classe, 0, 1]
                 self.trackers.append(temp)
                 takenTrackers[len(self.trackers) - 1] = 1
-                #     t = cv2.TrackerKCF_create()
-                #     t.clear()
-                #     t.init(img, (x, y, w, h))
-                #     classe = self.bd.identifyFace(img, rect)
-                #     temp = [t, (tl, br), classe, 0]
-                #     self.trackers.append(temp)
-                #     takenTrackers[len(self.trackers) - 1] = 1
-            # if (minDistance == -1):
-            #     t = cv2.TrackerKCF_create()
-            #     t.init(img, (x,y,w,h))
-            #     classe = self.bd.identifyFace(img, rect)
-            #     temp = [t, (tl,br), classe , 0]
-            #     self.trackers.append(temp)
-            #     takenTrackers[len(self.trackers)- 1] = 1
-            # elif minDistance <= self.ACCEPTABLE_DISTANCE:
-            #     takenTrackers[bestTrackerIndex] = 1
-            #     newTracker = cv2.TrackerKCF_create()
-            #     newTracker.init(img, (x, y, w, h))
-            #     self.trackers[bestTrackerIndex][0] = newTracker
-            #     self.trackers[bestTrackerIndex][1] = (tl,br)
-            #     self.trackers[bestTrackerIndex][3] = 0
-            # else:
-            #     t = cv2.TrackerKCF_create()
-            #     t.clear()
-            #     t.init(img, (x, y, w, h))
-            #     classe = self.bd.identifyFace(img, rect)
-            #     temp = [t, (tl, br), classe, 0]
-            #     self.trackers.append(temp)
-            #     takenTrackers[len(self.trackers) - 1] = 1
         for i, t in enumerate(self.trackers):
             if i not in takenTrackers:
                 self.trackers[i][3] += 1

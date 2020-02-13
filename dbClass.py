@@ -7,16 +7,13 @@ class Database:
          self.nextId = 0
          self.faces = {}
     def findBestClass(self, faceDescriptor):
-        distances = []  # [  (distance1, id1), (distance2, id2)]
+        distances = []
         
         for iD, entries in self.faces.items():
             d = 0
             for entry in entries:
-        ##        d = lb.faceDistance(faceDescriptor, entry[0])
                 d+= lb.faceDistance(faceDescriptor, entry[0])
-         ##   distances.append((iD, d))
             distances.append((iD, d/len(entries)))
-
         distances.sort(key= lambda x: x[1])        
         return distances[0]
     def addFace(self, faceDescriptor, imgCropped):
@@ -43,21 +40,13 @@ class Database:
 
     def addImg(self, img, upsample=0, minimumScore = 0.22):
         facesDetected= lb.getFaceRects(img, 0)
-#        print(scores)
         faceDescriptors = lb.getFaceDescriptors(img, facesDetected)
         retorno = []
         for i in range(len(facesDetected)):
-            #If the part of the face is not visible, ignore it.
             if (lb.isFaceValid(img, facesDetected[i]) is False):
                 continue
-            
-            #if (not (abs(pitch) <= 20 and abs(roll)<=20 and abs(yaw)<=20)):
-             #   continue
-
             x, y, w, h = facesDetected[i].left(),facesDetected[i].top(),facesDetected[i].width(), facesDetected[i].height()
-            
             r = self.addFace(faceDescriptors[i], img[y:y+h, x:x+w]),(x,y),(x+w, y+h)
-            #print(r)
             retorno.append(r)
         return retorno
    
