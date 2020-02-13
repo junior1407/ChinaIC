@@ -14,7 +14,7 @@ class CentroidTracker:
         self.bd = bd
         # [tracker, (tl,br), class, disappearances, identifications]
         #   self.MAX_DISTANCE = 20
-        self.MAX_DISAPPEARANCES = 4
+        self.MAX_DISAPPEARANCES = 1
         self.ACCEPTABLE_DISTANCE = 300
         self.MAX_IDENTIFICATIONS = 20
 

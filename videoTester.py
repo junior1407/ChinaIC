@@ -8,18 +8,18 @@ bd = Database()
 import os
 SKIP = 3
 DISAPPEARED_MAX = 4
-lista = os.listdir('video')
-lista.sort()
+#lista = os.listdir('video')
+#lista.sort()
 cap = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 ct = CentroidTracker(bd)
 #tracker = cv2.TrackerMIL_create() 
-for l in lista:
-#while cap.isOpened():
-    if (l=='0062.jpg'):
-        print()
-    frame = cv2.imread('video/'+ l, cv2.IMREAD_COLOR)
-    #status, frame = cap.read()
+#for l in lista:
+while cap.isOpened():
+    #if (l=='0062.jpg'):
+     #   print()
+    #frame = cv2.imread('video/'+ l, cv2.IMREAD_COLOR)
+    status, frame = cap.read()
     faceRects = lb.getFaceRects(frame)
     retorno = ct.processRects(frame, faceRects)
 
